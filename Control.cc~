@@ -1,0 +1,83 @@
+#include <iostream>
+#include <iomanip>
+#include <string>
+
+using namespace std;
+
+#include "Control.h"
+
+void Control::launch(){
+    
+// parameters used to create not events below
+    string  name;
+    int      day;
+    int    month;
+    int     year;
+    int    hours;
+    int  minutes;
+    int  seconds;
+    int priority;
+     
+    // the menuSelection variable uses the views userIo fn which prompts the 
+    // user to enter an event or to quit. The value is 1 if the user wishes
+    // to enter a book, 0 if finished.  
+    
+    int menuSelection;
+    int eventType;
+
+    menuSelection = view.userIo(name,day,month,year,hours,
+            minutes,seconds,priority);
+
+    while(menuSelection==1){
+        eventType = view.eventType();
+
+        if(eventType == 1){
+            SchoolEvent* e = new SchoolEvent(name,day,month,year,hours,
+                    minutes,seconds,priority);
+            
+            schoolCalendar.add(e); 
+        }
+
+        if(eventType == 0){
+            WorkEvent* e = new WorkEvent(name,day,month,year,hours,minutes,
+                    seconds,priority);
+
+            workCalendar.add(e);
+
+        }
+         
+
+        
+        menuSelection = view.userIo(name,day,month,year,hours,
+                minutes,seconds,priority);
+
+        if(menuSelection == 0){
+            cout << "    \n\n         "<< endl;
+            cout <<"=================="<< endl;
+            cout <<" School Calendar  "<< endl;
+            cout <<"==================\n"<< endl;
+            cout<<"Sorted by date:\n"<<endl;
+
+            // print the calendar using the views print fn 
+            view.printCalendar(schoolCalendar);
+            cout <<"==================\n"<< endl;
+           
+             cout << "    \n\n         "<< endl;
+            cout <<"=================="<< endl;
+            cout <<"   Work Calendar  "<< endl;       
+            cout <<"==================\n"<< endl;
+            cout <<"Sorted by priority:\n"<< endl;
+
+            // print the calendar using the views print fn 
+            view.printCalendar(workCalendar);
+            cout <<"==================\n"<< endl;
+
+
+        } 
+       
+        
+        
+ 
+   }
+
+}
